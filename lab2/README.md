@@ -1,141 +1,138 @@
-# Lab 2: A Beginner's Guide to Software Testing
+# Lab 2 – Writing Effective Test Cases
 
-Welcome! If you have never written a line of code in your life, you are in the right place. 
-
-This folder contains a collection of simple Python programs alongside **automated tests**. Think of automated tests as digital quality-assurance inspectors that check our work to ensure everything works safely, accurately, and as expected.
-
----
-
-## 💡 What is Software Testing? (The Real-World Analogy)
-
-Imagine a car factory:
-- Before a new car is sold, safety engineers test the **brakes**, **headlights**, and **seatbelts**.
-- They test the car under normal conditions (driving on a sunny day) and stressful conditions (slamming the brakes on ice).
-- If something breaks, they fix it in the factory *before* a customer drives it.
-
-In computer programming, **unit testing** does the exact same thing:
-1. We write a small piece of code (like a digital bank account).
-2. We write a **test** that gives the code instructions and checks: *"Did the code produce the exact result we expected?"*
-3. If the test passes, we know our code is reliable!
-
-In this project, we use a popular Python tool called **pytest** to run all our safety checks automatically in less than a second.
+## Student Information
+- **Name:** Kaung Khant Htoo
+- **Student ID:** 6705140027
+- **Course:** 192-211 Automated Software Testing
+- **Assignment:** Lab 2 – Writing Effective Test Cases
 
 ---
 
-## 📂 What is Inside This Folder?
+## Introduction
+This repository contains the laboratory work for **Lab 2 – Writing Effective Test Cases** in the *192-211 Automated Software Testing* course. The purpose of this lab is to develop hands-on skills in writing maintainable, reliable, and well-structured unit tests in Python using the **pytest** testing framework.
 
-Here is a quick map of the files:
-
-| File Name | What is it? | Plain English Explanation |
-| :--- | :--- | :--- |
-| **`bank.py`** | 🏦 Program | A digital bank account that lets you deposit, withdraw, and check your money. |
-| **`grades.py`** | 🎓 Program | A school grading calculator that turns test scores (like 85) into letter grades (like "A"). |
-| **`validators.py`** | 🛡️ Program | A digital security guard that checks if email addresses and ages are valid. |
-| **`test_bank.py`** | 🧪 Test | Checks that depositing money into a bank account actually increases the balance. |
-| **`test_named.py`** | 🧪 Test | Tests the bank account thoroughly using clearly named, easy-to-read tests. |
-| **`test_bad_example.py`** | ⚠️ Lesson | Shows a **poor way** to test code (cramming too many actions into one test). |
-| **`test_dependent.py`** | ✨ Lesson | Shows the **correct way** to test code (testing one isolated action at a time). |
-| **`test_grades.py`** | 🧪 Test | Checks that the grading calculator works for normal scores, boundary scores, and invalid scores. |
-| **`test_valid.py`** | 🧪 Test | Checks the "Happy Path" (valid inputs like an adult's age or a proper email). |
-| **`test_invalid.py`** | 🧪 Test | Checks the "Error Path" (making sure bad inputs trigger a proper warning). |
+Through practical exercises, the lab explores standard testing principles, demonstrating both anti-patterns to avoid and best practices to adopt when designing unit test suites.
 
 ---
 
-## 🔍 How the Programs Work
-
-### 1. The Bank Account (`bank.py`)
-A digital wallet with built-in safety rules:
-- **Deposit**: Adds money to your balance.
-  - *Safety Rule*: You cannot deposit $0 or negative money (e.g. depositing -$50 makes no sense!).
-- **Withdraw**: Takes money out of your balance.
-  - *Safety Rule*: You cannot take out more money than you currently have (no overdrawing).
-
-### 2. The Grade Calculator (`grades.py`)
-Turns a test score from `0` to `100` into a letter grade:
-- **80 to 100** = **A**
-- **70 to 79** = **B**
-- **60 to 69** = **C**
-- **0 to 59** = **F**
-- *Safety Rule*: If someone enters an impossible score (like `-5` or `150`), the program rejects it and raises an error.
-
-### 3. The Form Validators (`validators.py`)
-Acts like a bouncer at a door checking IDs:
-- **Email Validator**: Makes sure the email address has an `@` symbol (like `user@example.com`).
-- **Age Validator**: Makes sure a person is at least 18 years old.
+## Learning Objectives
+The primary objectives of this lab are to practice and apply:
+- **The AAA (Arrange, Act, Assert) Pattern:** Structuring test functions into distinct phases to enhance readability and traceability.
+- **Test Independence:** Ensuring each test case executes in complete isolation with a fresh state, avoiding inter-test dependencies.
+- **Boundary Value Testing:** Designing test cases that evaluate inputs at the boundaries of equivalence partitions, extreme values, and invalid thresholds.
+- **Descriptive Test Naming:** Using clear, behavior-driven test function names that describe the condition under test and the expected result.
+- **Positive and Negative Testing:** Verifying both normal (happy path) execution and proper error handling (such as expecting specific exceptions) for invalid inputs.
 
 ---
 
-## 🧠 Core Testing Lessons (Explained Simply)
+## Project Structure
 
-### Lesson 1: Test One Thing at a Time
-- **The Bad Way (`test_bad_example.py`)**:
-  Imagine testing a car by turning on the radio, accelerating to 60 mph, honking the horn, and rolling down the window all at once. If an alarm goes off, *which part failed?* You have no idea.
-- **The Good Way (`test_dependent.py`)**:
-  Start each test with a clean, fresh setup. Test deposits alone. Test withdrawals alone. If a test fails, you know the exact culprit immediately.
+```text
+lab2/
+├── .gitignore              # Specifies files and directories ignored by Git
+├── bank.py                 # Implementation of BankAccount class
+├── grades.py               # Implementation of letter_grade conversion function
+├── validators.py           # Email and age validation utility functions
+├── test_bank.py            # Basic unit test verifying BankAccount deposit logic
+├── test_bad_example.py     # Anti-pattern demonstration: interdependent, multi-step test
+├── test_dependent.py       # Refactored tests demonstrating test independence
+├── test_named.py           # Tests demonstrating descriptive naming and edge cases
+├── test_grades.py          # Boundary value analysis and exception tests for grading
+├── test_valid.py           # Positive test cases verifying valid inputs
+└── test_invalid.py         # Negative test cases verifying error handling
+```
 
-### Lesson 2: Give Tests Clear, Descriptive Names (`test_named.py`)
-Instead of naming a test `test_1()` or `test_stuff()`, we name tests like full sentences:
+### File Descriptions
+- `bank.py`: Defines the `BankAccount` class with `deposit()` and `withdraw()` operations, enforcing constraints such as positive deposits and overdraft protection.
+- `grades.py`: Implements the `letter_grade()` function, mapping percentage scores (0–100) to corresponding letter grades (`A`, `B`, `C`, `F`) and rejecting out-of-range values.
+- `validators.py`: Provides input validation functions `validate_email()` and `validate_age()` that enforce basic data requirements.
+- Test files (`test_*.py`): Contain unit test suites created to demonstrate specific testing strategies and patterns.
+
+---
+
+## Testing Sections
+
+### Section 1: AAA Pattern & Basic Assertions (`bank.py`, `test_bank.py`)
+Focuses on the foundational structure of a unit test using the **Arrange, Act, Assert** pattern:
+- **Arrange:** Instantiate a `BankAccount` with an initial balance of 100.
+- **Act:** Perform a deposit of 50.
+- **Assert:** Verify that the returned balance equals 150.
+
+### Section 2: Test Independence vs. Chained Tests (`test_bad_example.py`, `test_dependent.py`)
+- `test_bad_example.py` illustrates a common testing anti-pattern: chaining deposits and withdrawals sequentially within a single test. If an intermediate step fails, subsequent logic is never evaluated, obscuring the root cause.
+- `test_dependent.py` demonstrates the correct approach: decomposing operations into separate, isolated tests (`test_deposit_independent` and `test_withdraw_independent`), each beginning with fresh test state.
+
+### Section 3: Descriptive & Behavioral Test Naming (`test_named.py`)
+Emphasizes clear naming conventions that reflect specific behaviors and expected outcomes rather than generic names. Covers standard and exceptional bank account behaviors:
 - `test_deposit_increases_balance`
 - `test_deposit_negative_amount_raises_error`
 - `test_withdraw_more_than_balance_raises_error`
 - `test_withdraw_exact_balance_leaves_zero`
 
-If a test fails at 2:00 AM, the name immediately tells anyone on the team what broke without having to decipher the code!
+### Section 4: Boundary Value Testing & Exception Handling (`grades.py`, `test_grades.py`)
+Evaluates the `letter_grade` function across boundary points and exception conditions:
+- **Partition Boundaries:** Testing scores at cutoff edges (e.g., 80 for 'A', 79 for 'B', 60 for 'C', 59 for 'F').
+- **Extreme Limits:** Testing minimum valid score (0) and maximum valid score (100).
+- **Exception Verification:** Using `pytest.raises(ValueError)` to verify that invalid scores (`-1`, `101`) trigger appropriate exceptions.
 
-### Lesson 3: Test the Edges and Boundaries (`test_grades.py`)
-Bugs love hiding at the borders! For example:
-- A score of `80` is an **A**.
-- A score of `79` is a **B**.
-Testing both `80` and `79` ensures our code doesn't make an "off-by-one" mistake. We also test absolute limits like `0` (lowest score) and `100` (highest score).
-
-### Lesson 4: Make Sure Bad Inputs Cause Safe Errors (`pytest.raises`)
-Good programs do not crash silently or freeze when someone types the wrong thing. They wave a red flag (an "Error" or "Exception").
-In our tests, we intentionally supply bad inputs (such as score `-1` or age `17`) to confirm that the program catches them and raises a safe, expected error.
-
-### Lesson 5: Test Both Success and Failure
-- **Positive Testing (`test_valid.py`)**: Verifies that when users do the right thing (valid email, age 18), everything succeeds.
-- **Negative Testing (`test_invalid.py`)**: Verifies that when users make a mistake (invalid email, age 17), the program catches it.
+### Section 5: Positive and Negative Testing (`validators.py`, `test_valid.py`, `test_invalid.py`)
+Separates test logic into two focused test modules:
+- `test_valid.py`: Positive testing verifying that valid data (e.g., valid email formatting and age ≥ 18) returns `True`.
+- `test_invalid.py`: Negative testing confirming that invalid data (missing `@` symbol or age < 18) raises a `ValueError`.
 
 ---
 
-## 🚀 How to Run the Tests Yourself
+## How to Run
 
-You don't need any programming skills to run these checks. You only need a terminal (command prompt).
+### 1. Set Up and Activate Virtual Environment
+Open Windows PowerShell in the `lab2` folder:
 
-### Step 1: Open your terminal in this `lab2` folder
+```powershell
+# Create virtual environment (if not already created)
+python -m venv venv
 
-### Step 2: Run pytest
-Type this command and press **Enter**:
-```bash
-pytest -v
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# Install pytest (if needed)
+pip install pytest
 ```
 
-*(The `-v` stands for "verbose", meaning "tell me all the details").*
+### 2. Run All Tests
+Execute all tests with verbose output:
 
-### Step 3: Understanding the Results
-
-When pytest finishes, you will see a checklist on your screen:
-
-```text
-test_bad_example.py::test_everything_at_once PASSED                      [  6%]
-test_bank.py::test_deposit_increases_balance PASSED                      [ 13%]
-test_dependent.py::test_deposit_independent PASSED                       [ 20%]
-test_dependent.py::test_withdraw_independent PASSED                      [ 26%]
-test_grades.py::test_grade_boundaries PASSED                             [ 33%]
-test_grades.py::test_grade_extremes PASSED                               [ 40%]
-test_grades.py::test_invalid_scores PASSED                               [ 46%]
-test_invalid.py::test_invalid_email PASSED                               [ 53%]
-test_invalid.py::test_invalid_age PASSED                                 [ 60%]
-test_named.py::test_deposit_increases_balance PASSED                     [ 66%]
-test_named.py::test_deposit_negative_amount_raises_error PASSED          [ 73%]
-test_named.py::test_withdraw_more_than_balance_raises_error PASSED       [ 80%]
-test_named.py::test_withdraw_exact_balance_leaves_zero PASSED            [ 86%]
-test_valid.py::test_valid_email PASSED                                   [ 93%]
-test_valid.py::test_valid_age PASSED                                     [100%]
-
-============================= 15 passed in 0.04s ==============================
+```powershell
+python -m pytest -v
 ```
 
-- **`PASSED` (in Green)**: The test passed! The program behaved exactly as expected.
-- **`[ 100% ]`**: Progress counter showing that all 15 safety checks were executed.
-- **`15 passed in 0.04s`**: All 15 tests completed successfully in four hundredths of a second.
+### 3. Run Individual Test Files
+To run a specific test suite, supply the filename:
+
+```powershell
+python -m pytest test_bank.py -v
+python -m pytest test_grades.py -v
+python -m pytest test_named.py -v
+```
+
+---
+
+## Test Results
+All unit tests implemented across the test modules were executed and passed successfully during development:
+- `test_bad_example.py`: PASSED
+- `test_bank.py`: PASSED
+- `test_dependent.py`: PASSED
+- `test_grades.py`: PASSED
+- `test_invalid.py`: PASSED
+- `test_named.py`: PASSED
+- `test_valid.py`: PASSED
+
+Total: **15 passed tests** with zero failures or errors.
+
+---
+
+## Technologies Used
+- **Python** (Programming language)
+- **pytest** (Testing framework)
+- **Git / GitHub** (Version control and assignment submission)
+- **Windows PowerShell** (Execution environment)
+
